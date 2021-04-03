@@ -108,9 +108,9 @@ def Tweet(tw, config):
     except KeyError:
         t.photos = []
     try:
-        t.video = 1 if len(tw['extended_entities']['media']) else 0
+        t.video = sorted(tw['extended_entities']['media'][0]['video_info']['variants'], key=lambda v: v.get('bitrate', 0))[-1]['url']
     except KeyError:
-        t.video = 0
+        t.video = ''
     try:
         t.thumbnail = tw['extended_entities']['media'][0]['media_url_https']
     except KeyError:
